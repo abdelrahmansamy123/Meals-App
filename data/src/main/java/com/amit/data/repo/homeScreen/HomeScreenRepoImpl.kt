@@ -6,7 +6,7 @@ import com.amit.domain.repo.homeScreen.HomeScreenRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class HomeScreenRepoImpl constructor(private val mealsApi: MealsApi) : HomeScreenRepo {
+class HomeScreenRepoImpl(private val mealsApi: MealsApi) : HomeScreenRepo {
     override suspend fun getMealsFromRemote(): MealModelResponse = withContext(Dispatchers.IO) {
         return@withContext mealsApi.getMeals()
     }
