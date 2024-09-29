@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -28,18 +29,24 @@ fun MealDetailsScreen(viewModel: MealDetailsViewModel = hiltViewModel()) {
             .fillMaxSize()
             .padding(15.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically)
+        verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.CenterVertically)
     ) {
         AsyncImage(
             model = category.strCategoryThumb,
             contentDescription = "Meal Image",
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.Fit,
             modifier = Modifier
-                .size(200.dp)
+                .size(250.dp)
                 .clip(CircleShape)
         )
 
-        Text(category.strCategory ?: "")
-        Text(category.strCategoryDescription ?: "")
+        Text(
+            category.strCategory ?: "",
+            style = MaterialTheme.typography.headlineMedium
+        )
+        Text(
+            category.strCategoryDescription ?: "",
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
