@@ -14,32 +14,40 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.amit.mealsapp.Screen
+import com.google.gson.Gson
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreen(
-    navController: NavController? = null, viewModel: HomeScreenViewModel = hiltViewModel()
+    navController: NavController? = null,
+    viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     val meals by viewModel.meals.collectAsState()
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(start = 20.dp, end = 20.dp, top = 30.dp, bottom = 30.dp)
+            .padding(horizontal = 20.dp, vertical = 30.dp)
     ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 5.dp)
+                .padding(top = 10.dp)
         ) {
             items(meals.categories) { item ->
                 MealItemScreen(
-                    title = item.strCategory ?: "", imageUrl = item.strCategoryThumb ?: ""
-                ) { navController?.navigate("${Screen.MealDetailsScreen.route}/${item.strCategory}") }
+                    title = item.strCategory ?: "",
+                    imageUrl = item.strCategoryThumb ?: ""
+                ) {
+                    val gson = Gson()
+                    val categoryDataJson = gson.toJson(item)
+                    val encodedCategoryDataJson =
+                        java.net.URLEncoder.encode(categoryDataJson, "UTF-8")
+                    navController?.navigate("${Screen.MealDetailsScreen.route}/${encodedCategoryDataJson}")
+                }
             }
         }
     }
-
 }
 
 

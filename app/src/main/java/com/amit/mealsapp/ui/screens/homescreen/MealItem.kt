@@ -37,7 +37,8 @@ fun MealItemScreen(
             .padding(5.dp)
             .clickable { function() },
         shape = CircleShape,
-        colors = CardDefaults.cardColors(Color.White), elevation = CardDefaults.cardElevation(5.dp)
+        colors = CardDefaults.cardColors(Color.White),
+        elevation = CardDefaults.cardElevation(5.dp)
     ) {
         Row(
             modifier = Modifier
@@ -49,15 +50,13 @@ fun MealItemScreen(
 
             AsyncImage(
                 model = imageUrl,
-                contentDescription = imageUrl,
+                contentDescription = "Meal Image",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(50.dp)
                     .clip(CircleShape)
             )
-
             Text(text = title)
-
         }
     }
 }

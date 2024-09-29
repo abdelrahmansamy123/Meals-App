@@ -7,7 +7,6 @@ import coil.network.HttpException
 import com.amit.domain.entity.homeScreen.MealModelResponse
 import com.amit.domain.usecase.GetMealsFromRemote
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -26,10 +25,12 @@ class HomeScreenViewModel @Inject constructor(private val getMealsFromRemote: Ge
     }
 
     private fun getMeals() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             try {
-                _meals.value = getMealsFromRemote()
+                val data = getMealsFromRemote()
+                _meals.value = data
                 Log.d(TAG, "getMeals: ${Thread.currentThread().name}")
+                Log.d(TAG, "getMeals: ${data.categories[0].strCategory}")
             } catch (e: Exception) {
                 if (e is HttpException) {
                     Log.d(TAG, "HttpException getMeals: ${e.message}")
