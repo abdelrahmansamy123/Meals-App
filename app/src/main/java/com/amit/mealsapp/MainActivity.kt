@@ -15,6 +15,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -27,7 +32,9 @@ import androidx.navigation.navArgument
 import com.amit.mealsapp.ui.screens.homescreen.HomeScreen
 import com.amit.mealsapp.ui.screens.screendetails.MealDetailsScreen
 import com.amit.mealsapp.ui.theme.MealsAppTheme
+import com.amit.mealsapp.ui.view.ProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -48,6 +55,15 @@ class MainActivity : ComponentActivity() {
 fun MealsAppComposable() {
     val navController = rememberNavController()
 
+    var isLoading by remember { mutableStateOf(true) } // Loading state
+
+    // Simulate loading data
+    LaunchedEffect(Unit) {
+        // Simulate a loading delay (replace this with your data fetching logic)
+        delay(2000)
+        isLoading = false // Set loading to false after the operation
+    }
+
     Box(modifier = Modifier.fillMaxSize()) {
         // Background Image
         Image(
@@ -64,8 +80,7 @@ fun MealsAppComposable() {
             modifier = Modifier.fillMaxSize(),
             topBar = {
                 CenterAlignedTopAppBar(
-                    title = { Text(text = "Meals App") }
-                )
+                    title = { Text(text = "Meals App") })
             }
         ) { paddingValues ->
             // Apply padding to NavHost
@@ -85,6 +100,8 @@ fun MealsAppComposable() {
                 }
             }
         }
+        // Show progress dialog while loading
+        ProgressDialog(show = isLoading)
     }
 }
 
